@@ -1,30 +1,44 @@
 class Frame {
   constructor() {
-    this.rollsArray = [];
+    this.rolls = [];
   }
 
-  roll(pins) {
-    this.rollsArray.push(pins);
+  roll(pin) {
+    this.rolls.push(pin);
   }
 
   isComplete() {
-    if (this.isStrike()) {
-      return true;
-    } else if (this.isSpare()) {
-      return true;
-    } else if (this.rollsArray.length === 2) {
-      return true;
+    if (!this.isLastFrame()) {
+      if (this.rolls.length === 0) {
+        return false;
+      } else if (!this.isStrike() && this.rolls.length === 1) {
+        return false;
+      } else {
+        return true;
+      }
     } else {
-      return false;
+      if ((!this.isSpare() || !this.isStrike()) && this.rolls.length === 1) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 
   isStrike() {
-    return this.rollsArray[0] === 10;
+    return this.rolls[0] === 10;
   }
 
   isSpare() {
-    return this.rollsArray[0] + this.rollsArray[1] === 10;
+    return this.rolls[0] + this.rolls[1] === 10;
+  }
+
+  isLastFrame() {
+    return this.nextFrame === undefined;
+  }
+
+  setNextFrame(frame) {
+    this.nextFrame = frame;
   }
 }
 
