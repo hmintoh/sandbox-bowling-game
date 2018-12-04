@@ -8,20 +8,15 @@ class Frame {
   }
 
   isComplete() {
-    if (!this.isLastFrame()) {
-      if (this.rolls.length === 0) {
-        return false;
-      } else if (!this.isStrike() && this.rolls.length === 1) {
-        return false;
+    if (this.isLastFrame()) {
+      if (this.isStrike() || this.isSpare()) {
+        return this.rolls.length === 3;
       } else {
-        return true;
+        return this.rolls.length === 2;
       }
     } else {
-      if ((!this.isSpare() || !this.isStrike()) && this.rolls.length === 1) {
-        return false;
-      } else {
-        return true;
-      }
+      if (this.isStrike()) return this.rolls.length === 1;
+      return this.rolls.length === 2;
     }
   }
 
@@ -39,6 +34,10 @@ class Frame {
 
   setNextFrame(frame) {
     this.nextFrame = frame;
+  }
+
+  frameScore() {
+    return this.rolls.reduce((acc, currentval) => acc + currentval);
   }
 }
 

@@ -72,3 +72,19 @@ describe("isComplete() for last frames", () => {
     expect(currentFrame.isLastFrame()).toBeTruthy();
   });
 });
+
+describe("frameScore()", () => {
+  beforeEach(() => {
+    currentFrame = new Frame();
+    nextFrame = new Frame();
+  });
+
+  test("non-last, non-spare and non-strike frame", () => {
+    currentFrame.roll(3);
+    currentFrame.roll(3);
+    currentFrame.setNextFrame(nextFrame);
+
+    expect(currentFrame.isComplete()).toBeTruthy();
+    expect(currentFrame.frameScore()).toEqual(6);
+  });
+});
