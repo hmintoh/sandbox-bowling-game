@@ -79,6 +79,10 @@ describe("frameScore()", () => {
     nextFrame = new Frame();
   });
 
+  test("an incompete frame does not have a score", () => {
+    expect(() => currentFrame.frameScore()).toThrowError(Error);
+  });
+
   test("non-last, non-spare and non-strike frame", () => {
     currentFrame.roll(3);
     currentFrame.roll(3);

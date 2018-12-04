@@ -36,23 +36,32 @@ class Frame {
     this.nextFrame = frame;
   }
 
+  spareBonus() {
+    return this.nextFrame.rolls[0];
+  }
+
+  strikeBonus() {
+    return this.nextFrame.rolls[0] + this.nextFrame.rolls[1];
+  }
+
+  rollScore() {
+    return this.rolls.reduce((a, b) => a + b);
+  }
+
   frameScore() {
-    if (!this.isComplete()) {
-      throw new Error("incomplete frame");
-    }
+    if (!this.isComplete()) throw new Error("incomplete frame");
 
     if (this.isSpare() && !this.isLastFrame()) {
-      return 10 + this.nextFrame.rolls[0];
+      return this.rollScore() + this.spareBonus();
     } else if (this.isStrike() && !this.isLastFrame()) {
       return (
-        10 +
-        this.nextFrame.rolls[0] +
-        this.nextFrame.rolls[1] +
+        this.rollScore() +
+        this.strikeBonus() +
         this.nextFrame.rolls[0] +
         this.nextFrame.rolls[1]
       );
     } else {
-      return this.rolls.reduce((a, b) => a + b);
+      return this.rollScore();
     }
   }
 }
