@@ -41,9 +41,9 @@ class Frame {
       throw new Error("incomplete frame");
     }
 
-    if (this.isSpare()) {
+    if (this.isSpare() && !this.isLastFrame()) {
       return 10 + this.nextFrame.rolls[0];
-    } else if (this.isStrike()) {
+    } else if (this.isStrike() && !this.isLastFrame()) {
       return (
         10 +
         this.nextFrame.rolls[0] +

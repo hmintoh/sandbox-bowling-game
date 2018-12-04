@@ -108,4 +108,30 @@ describe("frameScore()", () => {
     expect(currentFrame.isComplete()).toBeTruthy();
     expect(currentFrame.frameScore()).toEqual(16);
   });
+
+  test("last, non-spike, non-spare frame", () => {
+    currentFrame.roll(3);
+    currentFrame.roll(3);
+
+    expect(currentFrame.isComplete()).toBeTruthy();
+    expect(currentFrame.frameScore()).toEqual(6);
+  });
+
+  test("last, spare frame", () => {
+    currentFrame.roll(3);
+    currentFrame.roll(7);
+    currentFrame.roll(3);
+
+    expect(currentFrame.isComplete()).toBeTruthy();
+    expect(currentFrame.frameScore()).toEqual(13);
+  });
+
+  test("last, strike frame", () => {
+    currentFrame.roll(10);
+    currentFrame.roll(7);
+    currentFrame.roll(3);
+
+    expect(currentFrame.isComplete()).toBeTruthy();
+    expect(currentFrame.frameScore()).toEqual(20);
+  });
 });
