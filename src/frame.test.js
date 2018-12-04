@@ -83,8 +83,29 @@ describe("frameScore()", () => {
     currentFrame.roll(3);
     currentFrame.roll(3);
     currentFrame.setNextFrame(nextFrame);
+    nextFrame.roll(5);
 
     expect(currentFrame.isComplete()).toBeTruthy();
     expect(currentFrame.frameScore()).toEqual(6);
+  });
+
+  test("non-last, spare frame", () => {
+    currentFrame.roll(2);
+    currentFrame.roll(8);
+    currentFrame.setNextFrame(nextFrame);
+    nextFrame.roll(3);
+
+    expect(currentFrame.isComplete()).toBeTruthy();
+    expect(currentFrame.frameScore()).toEqual(13);
+  });
+
+  test("non-last, spike frame", () => {
+    currentFrame.roll(10);
+    currentFrame.setNextFrame(nextFrame);
+    nextFrame.roll(3);
+    nextFrame.roll(0);
+
+    expect(currentFrame.isComplete()).toBeTruthy();
+    expect(currentFrame.frameScore()).toEqual(16);
   });
 });

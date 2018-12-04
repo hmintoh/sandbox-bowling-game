@@ -37,7 +37,23 @@ class Frame {
   }
 
   frameScore() {
-    return this.rolls.reduce((acc, currentval) => acc + currentval);
+    if (!this.isComplete()) {
+      throw new Error("incomplete frame");
+    }
+
+    if (this.isSpare()) {
+      return 10 + this.nextFrame.rolls[0];
+    } else if (this.isStrike()) {
+      return (
+        10 +
+        this.nextFrame.rolls[0] +
+        this.nextFrame.rolls[1] +
+        this.nextFrame.rolls[0] +
+        this.nextFrame.rolls[1]
+      );
+    } else {
+      return this.rolls.reduce((a, b) => a + b);
+    }
   }
 }
 
