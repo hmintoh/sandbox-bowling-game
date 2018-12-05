@@ -1,6 +1,7 @@
 class Frame {
-  constructor() {
+  constructor(index) {
     this.rolls = [];
+    this.frameIndex = index;
   }
 
   roll(pin) {
@@ -15,8 +16,11 @@ class Frame {
         return this.rolls.length === 2;
       }
     } else {
-      if (this.isStrike()) return this.rolls.length === 1;
-      return this.rolls.length === 2;
+      if (this.isStrike()) {
+        return this.rolls.length === 1;
+      } else {
+        return this.rolls.length === 2;
+      }
     }
   }
 
@@ -24,12 +28,16 @@ class Frame {
     return this.rolls[0] === 10;
   }
 
+  isStrikeFrame() {
+    return this.rolls[0] === 10 && this.rolls.length === 1;
+  }
+
   isSpare() {
     return this.rolls[0] + this.rolls[1] === 10;
   }
 
   isLastFrame() {
-    return this.nextFrame === undefined;
+    return this.frameIndex === 10;
   }
 
   setNextFrame(frame) {
@@ -41,7 +49,11 @@ class Frame {
   }
 
   strikeBonus() {
-    return this.nextFrame.rolls[0] + this.nextFrame.rolls[1];
+    if (this.nextFrame.isStrikeFrame()) {
+      return this.nextFrame.rolls[0] + this.nextFrame.nextFrame.rolls[0];
+    } else {
+      return this.nextFrame.rolls[0] + this.nextFrame.rolls[1];
+    }
   }
 
   rollScore() {
@@ -53,16 +65,11 @@ class Frame {
 
     if (this.isSpare() && !this.isLastFrame()) {
       return this.rollScore() + this.spareBonus();
-    } else if (this.isStrike() && !this.isLastFrame()) {
-      return (
-        this.rollScore() +
-        this.strikeBonus() +
-        this.nextFrame.rolls[0] +
-        this.nextFrame.rolls[1]
-      );
-    } else {
-      return this.rollScore();
     }
+    if (this.isStrikeFrame()) {
+      return this.rollScore() + this.strikeBonus();
+    }
+    return this.rollScore();
   }
 }
 

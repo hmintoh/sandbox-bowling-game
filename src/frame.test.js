@@ -46,7 +46,7 @@ describe("isComplete() for non-last frames", () => {
 
 describe("isComplete() for last frames", () => {
   beforeEach(() => {
-    currentFrame = new Frame();
+    currentFrame = new Frame(10);
   });
 
   test("complete non-strike, non-spare frame should only have 2 rolls", () => {
@@ -75,67 +75,67 @@ describe("isComplete() for last frames", () => {
 
 describe("frameScore()", () => {
   beforeEach(() => {
-    currentFrame = new Frame();
-    nextFrame = new Frame();
+    nonLastFrame = new Frame(9);
+    lastFrame = new Frame(10);
   });
 
   test("an incompete frame does not have a score", () => {
-    expect(() => currentFrame.frameScore()).toThrowError(Error);
+    expect(() => nonLastFrame.frameScore()).toThrowError(Error);
   });
 
   test("non-last, non-spare and non-strike frame", () => {
-    currentFrame.roll(3);
-    currentFrame.roll(3);
-    currentFrame.setNextFrame(nextFrame);
-    nextFrame.roll(5);
+    nonLastFrame.roll(3);
+    nonLastFrame.roll(3);
+    nonLastFrame.setNextFrame(lastFrame);
+    lastFrame.roll(5);
 
-    expect(currentFrame.isComplete()).toBeTruthy();
-    expect(currentFrame.frameScore()).toEqual(6);
+    expect(nonLastFrame.isComplete()).toBeTruthy();
+    expect(nonLastFrame.frameScore()).toEqual(6);
   });
 
   test("non-last, spare frame", () => {
-    currentFrame.roll(2);
-    currentFrame.roll(8);
-    currentFrame.setNextFrame(nextFrame);
-    nextFrame.roll(3);
+    nonLastFrame.roll(2);
+    nonLastFrame.roll(8);
+    nonLastFrame.setNextFrame(lastFrame);
+    lastFrame.roll(3);
 
-    expect(currentFrame.isComplete()).toBeTruthy();
-    expect(currentFrame.frameScore()).toEqual(13);
+    expect(nonLastFrame.isComplete()).toBeTruthy();
+    expect(nonLastFrame.frameScore()).toEqual(13);
   });
 
   test("non-last, spike frame", () => {
-    currentFrame.roll(10);
-    currentFrame.setNextFrame(nextFrame);
-    nextFrame.roll(3);
-    nextFrame.roll(0);
+    nonLastFrame.roll(10);
+    nonLastFrame.setNextFrame(lastFrame);
+    lastFrame.roll(3);
+    lastFrame.roll(0);
 
-    expect(currentFrame.isComplete()).toBeTruthy();
-    expect(currentFrame.frameScore()).toEqual(16);
+    expect(nonLastFrame.isComplete()).toBeTruthy();
+    expect(nonLastFrame.frameScore()).toEqual(13);
   });
 
   test("last, non-spike, non-spare frame", () => {
-    currentFrame.roll(3);
-    currentFrame.roll(3);
+    lastFrame.roll(3);
+    lastFrame.roll(3);
 
-    expect(currentFrame.isComplete()).toBeTruthy();
-    expect(currentFrame.frameScore()).toEqual(6);
+    expect(lastFrame.isComplete()).toBeTruthy();
+    expect(lastFrame.frameScore()).toEqual(6);
   });
 
   test("last, spare frame", () => {
-    currentFrame.roll(3);
-    currentFrame.roll(7);
-    currentFrame.roll(3);
+    lastFrame.roll(3);
+    lastFrame.roll(7);
+    lastFrame.roll(3);
 
-    expect(currentFrame.isComplete()).toBeTruthy();
-    expect(currentFrame.frameScore()).toEqual(13);
+    expect(lastFrame.isComplete()).toBeTruthy();
+    expect(lastFrame.frameScore()).toEqual(13);
   });
 
   test("last, strike frame", () => {
-    currentFrame.roll(10);
-    currentFrame.roll(7);
-    currentFrame.roll(3);
+    lastFrame.roll(10);
+    lastFrame.roll(7);
+    lastFrame.roll(3);
 
-    expect(currentFrame.isComplete()).toBeTruthy();
-    expect(currentFrame.frameScore()).toEqual(20);
+    expect(lastFrame.isComplete()).toBeTruthy();
+    expect(lastFrame.frameScore()).toEqual(20);
   });
 });

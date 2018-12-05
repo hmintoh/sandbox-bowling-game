@@ -9,12 +9,22 @@ class Game {
 
   roll(pin) {
     if (this.currentFrame === null) {
-      const frame = new Frame(this.frameIndex++);
+      const frame = new Frame();
       this.frames.push(frame);
       this.currentFrame = frame;
+      this.frameIndex++;
     }
 
     this.currentFrame.roll(pin);
+
+    if (this.currentFrame.isComplete() && !this.currentFrame.isLastFrame()) {
+      //create nextframe
+      const frame = new Frame();
+      this.currentFrame.setNextFrame(frame);
+      this.frames.push(frame);
+      this.currentFrame = frame;
+      this.frameIndex++;
+    }
   }
 
   gameScore() {
