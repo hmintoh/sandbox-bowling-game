@@ -1,13 +1,8 @@
 const Game = require("./game");
 let game = new Game();
 
-describe.skip("Game", () => {
+describe("Game", () => {
   beforeEach(() => (game = new Game()));
-
-  test("gutter frame", () => {
-    rollMany(game, 2, 0);
-    expect(game.gameScore()).toEqual(0);
-  });
 
   test("gutter set", () => {
     rollMany(game, 20, 0);
@@ -20,7 +15,9 @@ describe.skip("Game", () => {
   });
 
   test("perfect score", () => {
-    rollMany(game, 11, 10);
+    rollMany(game, 10, 10);
+    game.roll(10);
+    game.roll(10);
     expect(game.gameScore()).toEqual(300);
   });
 

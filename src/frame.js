@@ -61,7 +61,7 @@ class Frame {
   }
 
   frameScore() {
-    if (!this.isComplete()) throw new Error("incomplete frame");
+    // if (!this.isComplete()) throw new Error("incomplete frame");
 
     if (this.isSpare() && !this.isLastFrame()) {
       return this.rollScore() + this.spareBonus();
